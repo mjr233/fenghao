@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>古数图</title>
+    <style>
+		
+		img {
+		            max-width: 100%; /* 图片最大宽度为父元素宽度 */
+		            height: auto; /* 高度自适应，保持宽高比 */
+		            display: block; /* 让图片表现为块级元素 */
+		            margin: 0 auto; /* 水平居中 */
+		        }
+        /* 隐藏视频控件中的进度条和暂停键 */
+        video::-webkit-media-controls {
+            display: none !important;
+        }
+        video::-webkit-media-controls-play-button {
+            display: none !important;
+        }
+
+
+		
+		/* 视频播放器容器样式 */
+		#video-player {
+		    display: none; /* 初始隐藏 */
+		    max-width: 100%; /* 最大宽度为父元素宽度 */
+		}
+		
+		/* 视频元素样式 */
+		#video {
+		    width: 100%; /* 视频宽度为播放器容器宽度 */
+		}
+		
+		/* 返回按钮样式 */
+		        .back-button {
+		            position: fixed; /* 固定定位 */
+		            top: 30px; /* 距离顶部20px */
+		            left: 20px; /* 距离左侧20px */
+		            z-index: 999; /* 确保在最上层显示 */
+		            cursor: pointer; /* 鼠标指针样式 */
+						  
+						  }
+				.back-button img{
+					width: 25px;
+					height: auto;
+				}
+    </style>
+</head>
+<body>
+
+<!-- 原始内容 -->
+<div id="original-content">
+    <!-- 这里放置原有内容 -->
+    <img src="./images/index.jpg" alt="Clickable Image" usemap="#image-map">
+    <map name="image-map">
+        <area shape="rect" coords="20,200,185,800" class="video-trigger" data-video="./images/1.mp4">
+        <area shape="rect" coords="220,300,400,900" class="video-trigger" data-video="./images/2.mp4">
+        <area shape="rect" coords="420,200,620,800" class="video-trigger" data-video="./images/3.mp4">
+    </map>
+</div>
+
+<!-- 视频播放器 -->
+<div id="video-player" style="display: none;">
+    <video id="video" controls autoplay muted>
+        <!-- 视频源将通过JavaScript动态设置 -->
+    </video>
+	
+	<!-- 返回按钮 -->
+	<div class="back-button" onclick="goBack()">
+	    <img src="./images/back.png" alt="返回按钮">
+	</div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 获取所有视频触发器元素
+        var triggers = document.querySelectorAll('.video-trigger');
+        var videoPlayer = document.getElementById('video-player');
+        var videoElement = document.getElementById('video');
+
+        // 为每个触发器添加点击事件监听器
+        triggers.forEach(function(trigger) {
+            trigger.addEventListener("click", function() {
+                // 获取视频URL
+                var videoUrl = trigger.getAttribute('data-video');
+
+                // 隐藏原始内容
+                document.getElementById('original-content').style.display = 'none';
+
+                // 显示视频播放器
+                videoPlayer.style.display = 'block';
+
+                // 设置视频源并播放
+                videoElement.src = videoUrl;
+                videoElement.loop = true; // 设置循环播放
+                videoElement.play();
+
+            });
+        });
+    });
+	
+	function goBack() {
+	    // 返回到 index 页面
+	    window.location.href = "./index.html";
+	}
+
+</script>
+
+</body>
+</html>
